@@ -1,82 +1,67 @@
-import React from 'react'; 
-import { StatusBar } from 'expo-status-bar';
-import { Button, Text, View, TextInput } from 'react-native';
+import React, {useState} from 'react';
+import { View, Text, TouchableHighlight, TextInput, Alert, StyleSheet } from 'react-native';
 
 
-interface MeuBotaoProps { 
-  descricao: string
-}
+const Formulario : React.FC<any> = () => {
 
-const MeuBotao : React.FC<MeuBotaoProps> = ( props ) => { 
-  return ( 
-    <View style={{backgroundColor: "cornflowerblue",
-          paddingHorizontal: 20, paddingVertical: 15,
-          borderRadius: 15
-        }}>
-      <Text style={{color: "white", fontWeight: "bold",
-        fontSize: 18
-      }}>{props.descricao}</Text>
+  const [nome, setNome] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [telefone, setTelefone] = useState<string>("");
+
+  return (
+    <View style={estilos.container}>
+      <Text>Nome:</Text>
+      <TextInput style={estilos.input}
+        value={nome} onChangeText={setNome}/>
+      <Text>Telefone:</Text>
+      <TextInput style={estilos.input} 
+        value={telefone} onChangeText={setTelefone}/>
+      <Text>Email:</Text>
+      <TextInput style={estilos.input} 
+        value={email} onChangeText={setEmail}/>
+      <TouchableHighlight onPress={()=>{
+
+        const obj = {nome, telefone, email};
+        console.log( obj );
+
+      } }>
+        <View style={estilos.button}>
+          <Text style={estilos.buttonText}>Salvar</Text>
+        </View>
+      </TouchableHighlight>
     </View>
   )
 }
 
-export default function App() {
-  return (
+const estilos = StyleSheet.create({
 
-    <View style={{flex: 1,
-      flexDirection: "column",
-      justifyContent: "space-evenly",
-      padding: 20,
-      backgroundColor: "yellow",
-      borderRadius: 30}}> 
-      <Text style={{
-          flex: 1,
-          fontSize: 32,
-          fontWeight: "bold",
-          fontFamily: "arial",
-          backgroundColor: "lightcyan",
-          textAlign: "center"
-        }}>Agenda</Text>
-      <View style={{flexDirection: "row",
-        backgroundColor: "lightyellow",
-        justifyContent: "space-between",
-        flex: 1
-      }}>
-        <Text>Nome do contato:</Text>
-        <TextInput style={{
-          left: 100,
-          top: 100,  backgroundColor: "lightcyan", 
-          borderColor: "red", borderWidth: 2,
-          borderRadius: 30}} />
-      </View>
-      <View style={{flexDirection: "row",
-        backgroundColor: "lightyellow",
-        justifyContent: "space-between",
-        flex: 1
-      }}>
-        <Text>Nome do contato:</Text>
-        <TextInput style={{
-          left: 100,
-          top: 100,  backgroundColor: "lightcyan", 
-          borderColor: "red", borderWidth: 2,
-          borderRadius: 30}} />
-      </View>
-      <View style={{flexDirection: "row",
-        backgroundColor: "lightyellow",
-        justifyContent: "space-between",
-        flex: 1
-      }}>
-        <Text>Nome do contato:</Text>
-        <TextInput style={{
-          left: 100,
-          top: 100,  backgroundColor: "lightcyan", 
-          borderColor: "red", borderWidth: 2,
-          borderRadius: 30}} />
-      </View>
-      <View style={{flex: 0.3, flexDirection: "row"}}>
-        <MeuBotao descricao="Salvar"/>          
-        <MeuBotao descricao="Pesquisar"/>                  
-      </View>
-    </View>
-  );
-}
+  container : { 
+    backgroundColor: "lightgray" ,
+    margin: 25,
+    flex: 1,
+    padding: 5
+  },
+  buttonText: { 
+    color: "white"
+  },
+  input: {
+    backgroundColor: "lightcyan",
+    borderColor: "red",
+    borderWidth: 2,
+    borderRadius: 10,
+    margin: 10,
+    padding: 5
+  },
+  button : { 
+    backgroundColor: "navy",
+    borderRadius: 20,
+    borderColor: "white",
+    borderWidth: 2,
+    shadowColor: "black",
+    shadowRadius: 5,
+    shadowOffset: {width: 5, height: 5}
+
+  }
+});
+
+export default Formulario;
