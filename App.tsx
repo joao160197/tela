@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { View, Text, TouchableHighlight, TextInput, Alert, StyleSheet } from 'react-native';
+import { View, Text, TouchableHighlight, TextInput, Alert, StyleSheet, ToastAndroid } from 'react-native';
 
 
 const Formulario : React.FC<any> = () => {
@@ -8,27 +8,56 @@ const Formulario : React.FC<any> = () => {
   const [email, setEmail] = useState<string>("");
   const [telefone, setTelefone] = useState<string>("");
 
+  const [lista, setLista] = useState<Array<any>>([
+
+    {nome : "Joao Silva", telefone: "(11) 1111-1111", email: "joao@teste.com"}
+
+  ]);
+
+
+  const listaMostrar = [] 
+
+  for(let i = 0; i < lista.length; i++) {
+    const obj = lista[i];
+    listaMostrar.push(
+      <View style={{backgroundColor: "lightyellow", borderColor: "red",
+      borderWidth: 2, padding: 15, margin: 10, borderRadius: 20}}>
+        <Text>{obj.nome}</Text>
+        <Text>{obj.telefone}</Text>
+        <Text>{obj.email}</Text>
+      </View>);
+  }
+
   return (
     <View style={estilos.container}>
-      <Text>Nome:</Text>
-      <TextInput style={estilos.input}
-        value={nome} onChangeText={setNome}/>
-      <Text>Telefone:</Text>
-      <TextInput style={estilos.input} 
-        value={telefone} onChangeText={setTelefone}/>
-      <Text>Email:</Text>
-      <TextInput style={estilos.input} 
-        value={email} onChangeText={setEmail}/>
-      <TouchableHighlight onPress={()=>{
+      <View style={{flex: 1}}>
+        <Text>Nome:</Text>
+        <TextInput style={estilos.input}
+          value={nome} onChangeText={setNome}/>
+        <Text>Telefone:</Text>
+        <TextInput style={estilos.input} 
+          value={telefone} onChangeText={setTelefone}/>
+        <Text>Email:</Text>
+        <TextInput style={estilos.input} 
+          value={email} onChangeText={setEmail}/>
+        <TouchableHighlight onPress={()=>{
 
-        const obj = {nome, telefone, email};
-        console.log( obj );
+          const obj = {nome, telefone, email};
+          console.log( obj );
 
-      } }>
-        <View style={estilos.button}>
-          <Text style={estilos.buttonText}>Salvar</Text>
-        </View>
-      </TouchableHighlight>
+          setLista( [ ...lista, obj ] );
+          // Alert.alert("Contato", "Contato salvo com sucesso");
+          ToastAndroid.show("Contato Salvo com sucesso", ToastAndroid.LONG);
+
+        } }>
+          <View style={estilos.button}>
+            <Text style={estilos.buttonText}>Salvar</Text>
+          </View>
+        </TouchableHighlight>
+      </View>
+      <View style={{flex: 2}}>
+        {listaMostrar}
+      </View>
     </View>
   )
 }
